@@ -17,7 +17,7 @@ const produits: Produit[] = [
 
   { id: 7, nom: "Verre de vin", prix: 2.5 },
   { id: 9, nom: "Bouteille de vin", prix: 12 },
-  { id: 10, nom: "Boissons chaudes", prix: 1.5 },
+  { id: 10, nom: "Boissons chaudes", prix: 2 },
   { id: 11, nom: "Limonade / Eau pet / Jus", prix: 1.5 },
   { id: 12, nom: "Coca", prix: 2 },
   { id: 13, nom: "Chips", prix: 1.5 },
@@ -59,17 +59,17 @@ const App: React.FC = () => {
         <Text size="xl" ta="center" style={{ marginBottom: 20 }}>
           Au Beau Vignet
         </Text>
-        <Group style={{ marginBottom: 20 }}>
-          <Button onClick={resetQuantites} color="red">
-            Reset
-          </Button>
-          <Text size="lg" style={{ textAlign: 'center' }}>
-            Total: {total} €
-          </Text>
-        </Group>
 
+          <Group justify='space-between' style={{ marginBottom: 20 }}>
+            <Button onClick={resetQuantites} color="red">
+              Reset
+            </Button>
+            <Text size="lg" style={{ textAlign: 'center' }}>
+              Total: {total} €
+            </Text>
+          </Group>
         {produits.map((produit, index) => (
-          <Group justify='space-between' key={produit.id} style={{ marginBottom: 20 }}>
+          <Group justify='space-between' key={produit.id} style={{ marginBottom: 5 }}>
           <Group>
             <Text ta='right' >{produit.nom}</Text>
             <Text>{`(${produit.prix} €)`}</Text>

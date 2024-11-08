@@ -58,22 +58,6 @@ const App: React.FC = () => {
         <Text size="xl" ta="center" style={{ marginBottom: 20 }}>
           Au Beau Vignet
         </Text>
-
-        {produits.map((produit, index) => (
-          <Group justify='space-between' key={produit.id} style={{ marginBottom: 20 }}>
-          <Group>
-            <Text ta='right' >{produit.nom}</Text>
-            <Text>{`Prix: ${produit.prix} €`}</Text>
-          </Group>
-          <Group>
-            <Button variant="default" onClick={() => ajusterQuantite(index, -1)}>-</Button>
-            <Text>{`Nbr: ${quantites[index]}`}</Text>
-            <Button variant="default" onClick={() => ajusterQuantite(index, 1)}>+</Button>
-          </Group>
-        </Group>
-          
-        ))}
-
         <Group style={{ marginBottom: 20 }}>
           <Button onClick={resetQuantites} color="red">
             Reset
@@ -82,6 +66,22 @@ const App: React.FC = () => {
             Total: {total} €
           </Text>
         </Group>
+
+        {produits.map((produit, index) => (
+          <Group justify='space-between' key={produit.id} style={{ marginBottom: 20 }}>
+          <Group>
+            <Text ta='right' >{produit.nom}</Text>
+            <Text>{`(${produit.prix} €)`}</Text>
+          </Group>
+          <Group>
+            <Button variant="default" onClick={() => ajusterQuantite(index, -1)}>-</Button>
+            <Text>{`${quantites[index]}`}</Text>
+            <Button variant="default" onClick={() => ajusterQuantite(index, 1)}>+</Button>
+          </Group>
+        </Group>
+          
+        ))}
+
       </Container>
     </MantineProvider>
 

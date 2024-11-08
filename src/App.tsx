@@ -54,6 +54,7 @@ const App: React.FC = () => {
     
 
     <MantineProvider>
+
       <Container fluid bg="var(--mantine-color-blue-light)">
         <Text size="xl" ta="center" style={{ marginBottom: 20 }}>
           Au Beau Vignet

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '@mantine/core/styles.css';
-import { Container, Text, Button, Group, MantineProvider } from '@mantine/core';
+import { Container, Text, Button, Group, MantineProvider, Flex } from '@mantine/core';
 
 type Produit = {
   id: number;
@@ -13,7 +13,7 @@ const produits: Produit[] = [
   { id: 3, nom: "Sport Zot", prix: 3 },
   { id: 4, nom: "Lupulus Fructus/Taras/Chaumontoise", prix: 3.5 },
   { id: 5, nom: "Autres Bières", prix: 4 },
-  { id: 6, nom: "Grandes Bouteilles", prix: 9 },
+  { id: 6, nom: "Grandes Bières", prix: 9 },
 
   { id: 7, nom: "Verre de vin", prix: 2.5 },
   { id: 9, nom: "Bouteille de vin", prix: 12 },
@@ -36,7 +36,7 @@ const App: React.FC = () => {
   const ajusterQuantite = (index: number, increment: number) => {
     const nouvellesQuantites = [...quantites];
     const nouvelleQuantite = nouvellesQuantites[index] + increment;
-    
+
     nouvellesQuantites[index] = Math.max(nouvelleQuantite, 0);
     setQuantites(nouvellesQuantites);
   };
@@ -50,44 +50,39 @@ const App: React.FC = () => {
   }, 0);
 
   return (
-
-    
-
     <MantineProvider>
-
       <Container fluid bg="var(--mantine-color-blue-light)">
         <Text size="xl" ta="center" style={{ marginBottom: 20 }}>
           Au Beau Vignet
         </Text>
-
-          <Group justify='space-between' style={{ marginBottom: 20 }}>
-            <Button onClick={resetQuantites} color="red">
-              Reset
-            </Button>
-            <Text size="lg" style={{ textAlign: 'center' }}>
-              Total: {total} €
-            </Text>
-          </Group>
+        <Group justify='space-between' style={{ marginBottom: 20 }}>
+          <Button onClick={resetQuantites} color="red">
+            Reset
+          </Button>
+          <Text size="lg" style={{ textAlign: 'center' }}>
+            Total: {total} €
+          </Text>
+        </Group>
         {produits.map((produit, index) => (
           <Group justify='space-between' key={produit.id} style={{ marginBottom: 5 }}>
-          <Group>
-            <Text ta='right' >{produit.nom}</Text>
-            <Text>{`(${produit.prix} €)`}</Text>
+            <Group justify='flex-end'>
+              <Text ta='right' >{produit.nom}</Text>
+            </Group>
+            <Flex gap="xs" align="center" justify="flex-end">
+              <Text>{`(${produit.prix} €)`}</Text>
+              <Button variant="default" onClick={() => ajusterQuantite(index, -1)}>-</Button>
+              <Text>{`${quantites[index]}`}</Text>
+              <Button variant="default" onClick={() => ajusterQuantite(index, 1)}>+</Button>
+            </Flex>
           </Group>
-          <Group>
-            <Button variant="default" onClick={() => ajusterQuantite(index, -1)}>-</Button>
-            <Text>{`${quantites[index]}`}</Text>
-            <Button variant="default" onClick={() => ajusterQuantite(index, 1)}>+</Button>
-          </Group>
-        </Group>
-          
+
         ))}
 
       </Container>
     </MantineProvider>
 
-    
-    
+
+
   );
 };
 

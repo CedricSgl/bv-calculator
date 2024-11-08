@@ -1,35 +1,93 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import '@mantine/core/styles.css';
+import { Container, Text, Button, Group, MantineProvider } from '@mantine/core';
 
-function App() {
-  const [count, setCount] = useState(0)
+type Produit = {
+  id: number;
+  nom: string;
+  prix: number;
+};
+
+const produits: Produit[] = [
+  { id: 1, nom: "Bières au fut", prix: 2.5 },
+  { id: 3, nom: "Sport Zot", prix: 3 },
+  { id: 4, nom: "Lupulus Fructus/Taras/Chaumontoise", prix: 3.5 },
+  { id: 5, nom: "Autres Bières", prix: 4 },
+  { id: 6, nom: "Grandes Bouteilles", prix: 9 },
+
+  { id: 7, nom: "Verre de vin", prix: 2.5 },
+  { id: 9, nom: "Bouteille de vin", prix: 12 },
+  { id: 10, nom: "Boissons chaudes", prix: 1.5 },
+  { id: 11, nom: "Limonade / Eau pet / Jus", prix: 1.5 },
+  { id: 12, nom: "Coca", prix: 2 },
+  { id: 13, nom: "Chips", prix: 1.5 },
+  { id: 14, nom: "Tarte sucrée", prix: 3.5 },
+  { id: 15, nom: "Soupe et pain", prix: 5 },
+  { id: 16, nom: "Assiette Apéro", prix: 5 },
+  { id: 17, nom: "Tarte Salée", prix: 6 },
+  { id: 18, nom: "Plat du WE", prix: 12 },
+
+  // Ajoutez d'autres produits si nécessaire
+];
+
+const App: React.FC = () => {
+  const [quantites, setQuantites] = useState<number[]>(Array(produits.length).fill(0));
+
+  const ajusterQuantite = (index: number, increment: number) => {
+    const nouvellesQuantites = [...quantites];
+    const nouvelleQuantite = nouvellesQuantites[index] + increment;
+    
+    nouvellesQuantites[index] = Math.max(nouvelleQuantite, 0);
+    setQuantites(nouvellesQuantites);
+  };
+
+  const resetQuantites = () => {
+    setQuantites(Array(produits.length).fill(0))
+  }
+
+  const total = produits.reduce((somme, produit, index) => {
+    return somme + produit.prix * quantites[index];
+  }, 0);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
 
-export default App
+    
+
+    <MantineProvider>
+      <Container fluid bg="var(--mantine-color-blue-light)">
+        <Text size="xl" ta="center" style={{ marginBottom: 20 }}>
+          Au Beau Vignet
+        </Text>
+
+        {produits.map((produit, index) => (
+          <Group justify='space-between' key={produit.id} style={{ marginBottom: 20 }}>
+          <Group>
+            <Text ta='right' >{produit.nom}</Text>
+            <Text>{`Prix: ${produit.prix} €`}</Text>
+          </Group>
+          <Group>
+            <Button variant="default" onClick={() => ajusterQuantite(index, -1)}>-</Button>
+            <Text>{`Nbr: ${quantites[index]}`}</Text>
+            <Button variant="default" onClick={() => ajusterQuantite(index, 1)}>+</Button>
+          </Group>
+        </Group>
+          
+        ))}
+
+        <Group style={{ marginBottom: 20 }}>
+          <Button onClick={resetQuantites} color="red">
+            Reset
+          </Button>
+          <Text size="lg" style={{ textAlign: 'center' }}>
+            Total: {total} €
+          </Text>
+        </Group>
+      </Container>
+    </MantineProvider>
+
+    
+    
+  );
+};
+
+export default App;

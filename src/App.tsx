@@ -24,7 +24,7 @@ const produits: Produit[] = [
   { id: 14, nom: "Tarte sucrée", prix: 3.5 },
   { id: 15, nom: "Soupe et pain", prix: 5 },
   { id: 16, nom: "Assiette Apéro", prix: 5 },
-  { id: 17, nom: "Tarte Salée", prix: 6 },
+  { id: 17, nom: "Tarte Salée", prix: 7 },
   { id: 18, nom: "Plat du WE", prix: 12 },
 
   // Ajoutez d'autres produits si nécessaire

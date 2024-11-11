@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '@mantine/core/styles.css';
-import { Container, Text, Button, Group, MantineProvider, Flex } from '@mantine/core';
+import { Container, Text, Button, Group, MantineProvider, Flex, AppShell } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 type Produit = {
   id: number;
@@ -45,24 +46,31 @@ const App: React.FC = () => {
     setQuantites(Array(produits.length).fill(0))
   }
 
+  const [opened, { toggle }] = useDisclosure();
+  
   const total = produits.reduce((somme, produit, index) => {
     return somme + produit.prix * quantites[index];
   }, 0);
 
   return (
     <MantineProvider>
-      <Container fluid bg="var(--mantine-color-blue-light)">
-        <Text size="xl" ta="center" style={{ marginBottom: 20 }}>
-          Au Beau Vignet
-        </Text>
+    <AppShell header={{ height: 60 }}
+      navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+      padding="md">
+        <AppShell.Header>
         <Group justify='space-between' style={{ marginBottom: 20 }}>
-          <Button onClick={resetQuantites} color="red">
-            Reset
-          </Button>
+        <Group h="100%" px="md">
+        <Text size="lg" style={{ textAlign: 'center' }}>Au Beau Vignet</Text>
+        </Group>
           <Text size="lg" style={{ textAlign: 'center' }}>
             Total: {total} €
           </Text>
+          <Button onClick={resetQuantites} color="red">
+            Reset
+          </Button>
         </Group>
+        </AppShell.Header>
+        <AppShell.Main>
         {produits.map((produit, index) => (
           <Group justify='space-between' key={produit.id} style={{ marginBottom: 5 }}>
             <Group justify='flex-end'>
@@ -77,6 +85,11 @@ const App: React.FC = () => {
           </Group>
 
         ))}
+
+        </AppShell.Main>
+    </AppShell>
+      <Container fluid bg="var(--mantine-color-blue-light)">
+        
 
       </Container>
     </MantineProvider>

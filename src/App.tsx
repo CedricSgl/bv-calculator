@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '@mantine/core/styles.css';
-import { Container, Text, Button, Group, MantineProvider, Flex, AppShell } from '@mantine/core';
+import { Text, Button, Group, MantineProvider, Flex, AppShell, Input } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 type Produit = {
@@ -12,7 +12,7 @@ type Produit = {
 const produits: Produit[] = [
   { id: 1, nom: "Bières au fut", prix: 2.5 },
   { id: 3, nom: "Sport Zot", prix: 3 },
-  { id: 4, nom: "Lupulus Fructus/Taras/Chaumontoise", prix: 3.5 },
+  { id: 4, nom: /*"Lupulus Fructus/Taras/Chaumontoise/WunderLager"*/"Bières Légères", prix: 3.5 },
   { id: 5, nom: "Autres Bières", prix: 4 },
   { id: 6, nom: "Grandes Bières", prix: 9 },
 
@@ -47,51 +47,48 @@ const App: React.FC = () => {
   }
 
   const [opened, { toggle }] = useDisclosure();
-  
+
   const total = produits.reduce((somme, produit, index) => {
     return somme + produit.prix * quantites[index];
   }, 0);
 
   return (
     <MantineProvider>
-    <AppShell header={{ height: 60 }}
-      navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
-      padding="md">
+      <AppShell header={{ height: 60 }}
+        navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+        padding="md">
         <AppShell.Header>
-        <Group justify='space-between' style={{ marginBottom: 20 }}>
-        <Group h="100%" px="md">
-        <Text size="lg" style={{ textAlign: 'center' }}>Au Beau Vignet</Text>
-        </Group>
-          <Text size="lg" style={{ textAlign: 'center' }}>
-            Total: {total} €
-          </Text>
-          <Button onClick={resetQuantites} color="red">
-            Reset
-          </Button>
-        </Group>
+          <Group justify='space-between' style={{ marginBottom: 20 }}>
+            <Group h="100%" px="md">
+              <Text size="lg" style={{ textAlign: 'center' }}>Au Beau Vignet</Text>
+            </Group>
+            <Text size="lg" style={{ textAlign: 'center' }}>
+              Total: {total} €
+            </Text>
+            <Button onClick={resetQuantites} color="red">
+              Reset
+            </Button>
+            <Input placeholder="Total du compte" />;
+          </Group>
         </AppShell.Header>
         <AppShell.Main>
-        {produits.map((produit, index) => (
-          <Group justify='space-between' key={produit.id} style={{ marginBottom: 5 }}>
-            <Group justify='flex-end'>
-              <Text ta='right' >{produit.nom}</Text>
+          {produits.map((produit, index) => (
+            <Group justify='space-between' key={produit.id} style={{ marginBottom: 5 }}>
+              <Group justify='flex-end'>
+                <Text ta='right' >{produit.nom}</Text>
+              </Group>
+              <Flex gap="xs" align="center" justify="flex-end">
+                <Text>{`(${produit.prix} €)`}</Text>
+                <Button variant="default" onClick={() => ajusterQuantite(index, -1)}>-</Button>
+                <Text>{`${quantites[index]}`}</Text>
+                <Button variant="default" onClick={() => ajusterQuantite(index, 1)}>+</Button>
+              </Flex>
             </Group>
-            <Flex gap="xs" align="center" justify="flex-end">
-              <Text>{`(${produit.prix} €)`}</Text>
-              <Button variant="default" onClick={() => ajusterQuantite(index, -1)}>-</Button>
-              <Text>{`${quantites[index]}`}</Text>
-              <Button variant="default" onClick={() => ajusterQuantite(index, 1)}>+</Button>
-            </Flex>
-          </Group>
 
-        ))}
+          ))}
 
         </AppShell.Main>
-    </AppShell>
-      <Container fluid bg="var(--mantine-color-blue-light)">
-        
-
-      </Container>
+      </AppShell>
     </MantineProvider>
 
 

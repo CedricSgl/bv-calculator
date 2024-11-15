@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '@mantine/core/styles.css';
 import { Text, Button, Group, MantineProvider, Flex, AppShell, Input } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+//import { useDisclosure } from '@mantine/hooks';
 
 type Produit = {
   id: number;
@@ -19,7 +19,7 @@ const produits: Produit[] = [
   { id: 7, nom: "Verre de vin", prix: 2.5 },
   { id: 9, nom: "Bouteille de vin", prix: 12 },
   { id: 10, nom: "Boissons chaudes", prix: 2 },
-  { id: 11, nom: "Limonade / Eau pet / Jus", prix: 1.5 },
+  { id: 11, nom: "Limo / Eau pet / Jus", prix: 1.5 },
   { id: 12, nom: "Coca", prix: 2 },
   { id: 13, nom: "Chips", prix: 1.5 },
   { id: 14, nom: "Tarte sucrée", prix: 3.5 },
@@ -44,21 +44,32 @@ const App: React.FC = () => {
 
   const resetQuantites = () => {
     setQuantites(Array(produits.length).fill(0))
+    setValue('')
   }
 
-  const [opened, { toggle }] = useDisclosure();
+  //const [opened, { toggle }] = useDisclosure();
 
   const total = produits.reduce((somme, produit, index) => {
     return somme + produit.prix * quantites[index];
   }, 0);
+  const [value, setValue] = useState('');
+  const solde = () => {
+    const numericValue = parseFloat(value);
+    if (!isNaN(numericValue)) {
+      return numericValue - total;
+    }
+    return - total; // Renvoie la valeur initiale par défaut si l'input n'est pas un nombre
+  };
+
+  //const solde = 0 - total;
 
   return (
     <MantineProvider>
-      <AppShell header={{ height: 60 }}
-        navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+      <AppShell header={{ height: { base: 60, sm: 60, lg: 60 } }} footer={{ height: 60 }}
+        navbar={{ width: 300, breakpoint: 'sm'/*, collapsed: { mobile: !opened }*/ }}
         padding="md">
         <AppShell.Header>
-          <Group justify='space-between' style={{ marginBottom: 20 }}>
+          <Group justify='space-between' style={{ margin: 10 }}>
             <Group h="100%" px="md">
               <Text size="lg" style={{ textAlign: 'center' }}>Au Beau Vignet</Text>
             </Group>
@@ -68,7 +79,6 @@ const App: React.FC = () => {
             <Button onClick={resetQuantites} color="red">
               Reset
             </Button>
-            <Input placeholder="Total du compte" />;
           </Group>
         </AppShell.Header>
         <AppShell.Main>
@@ -88,6 +98,20 @@ const App: React.FC = () => {
           ))}
 
         </AppShell.Main>
+        <AppShell.Footer>
+          <Group justify='space-between' style={{ marginBottom: 10, marginTop: 10, margin: 10 }}>
+            <Group>
+              <Input placeholder="Total du compte" value={value} type='Number'
+                onChange={(event) => setValue(event.currentTarget.value)} />
+            </Group>
+            <Group>
+              <Text size="lg"
+                c={solde() < 0 ? 'red' : 'inherit'}>Solde : {solde()} €</Text>
+
+            </Group>
+
+          </Group>
+        </AppShell.Footer>
       </AppShell>
     </MantineProvider>
 

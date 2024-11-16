@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '@mantine/core/styles.css';
-import { Text, Button, Group, MantineProvider, Flex, AppShell, Input, Burger } from '@mantine/core';
+import { Text, Button, Group, MantineProvider, Flex, AppShell, Input/*, Burger*/ } from '@mantine/core';
 //import { useDisclosure } from '@mantine/hooks';
 
 type Produit = {

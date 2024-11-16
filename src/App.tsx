@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '@mantine/core/styles.css';
-import { Text, Button, Group, MantineProvider, Flex, AppShell, Input } from '@mantine/core';
+import { Text, Button, Group, MantineProvider, Flex, AppShell, Input, Burger } from '@mantine/core';
 //import { useDisclosure } from '@mantine/hooks';
 
 type Produit = {
@@ -54,7 +54,8 @@ const App: React.FC = () => {
   }, 0);
   const [value, setValue] = useState('');
   const solde = () => {
-    const numericValue = parseFloat(value);
+    const normalizedValue = value.replace(',', '.');
+    const numericValue = parseFloat(normalizedValue);
     if (!isNaN(numericValue)) {
       return numericValue - total;
     }
